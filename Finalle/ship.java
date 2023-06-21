@@ -33,7 +33,7 @@ abstract class Ship {
 // Kelas Kapal Perahu
 class Perahu extends Ship {
     public Perahu() {
-        super("Perahu", 2);
+        super("Perahu", 1);
     }
 
     public void placeShip() {
@@ -66,7 +66,7 @@ class Perahu extends Ship {
 // Kelas Kapal KapalSelam
 class KapalSelam extends Ship {
     public KapalSelam() {
-        super("Kapal Selam", 3);
+        super("Kapal Selam", 1);
     }
 
     public void placeShip() {
@@ -99,7 +99,7 @@ class KapalSelam extends Ship {
 // Kelas Kapal KapalInduk
 class KapalInduk extends Ship {
     public KapalInduk() {
-        super("Kapal Induk", 4);
+        super("Kapal Induk", 1);
     }
 
     public void placeShip() {
@@ -153,7 +153,7 @@ class Player {
         return shotHistory;
     }
 
-        private void markShipOnMap(Ship ship) {
+    private void markShipOnMap(Ship ship) {
         int[][] coordinates = ship.getCoordinates();
         for (int i = 0; i < ship.getSize(); i++) {
             int row = coordinates[i][0];
@@ -196,8 +196,6 @@ class Player {
 
         System.out.println(name + ", kapal-kapalmu telah ditempatkan!\n");
     }
-
-    
 
     public void shoot(Player targetPlayer) {
         Scanner scanner = new Scanner(System.in);
@@ -262,7 +260,7 @@ class Player {
 
 // Kelas BattleShipGame
 class BattleShipGame {
-    private static final int NUM_ROUNDS = 3;
+    private static final int NUM_ROUNDS = 3; 
 
     private Player player1;
     private Player player2;
@@ -276,22 +274,24 @@ class BattleShipGame {
         player1.placeShips();
         player2.placeShips();
 
-        for (int round = 1; round <= NUM_ROUNDS; round++) {
+        int round = 1;
+        while (player1.hasShipsRemaining() && player2.hasShipsRemaining() && round <=NUM_ROUNDS) {
             System.out.println("ROUND " + round + " - " + player1.getName() + " VS " + player2.getName());
             System.out.println("--------------------------");
 
-            while (true) {
+            for (int i = 0; i < 3; i++) {
+                System.out.println("=== Turn " + (i + 1) + " ===");
                 player1.shoot(player2);
                 if (!player2.hasShipsRemaining()) {
                     break;
                 }
-
                 player2.shoot(player1);
                 if (!player1.hasShipsRemaining()) {
                     break;
                 }
             }
 
+            round++;
             printMap(player1, player1.getName());
             printMap(player2, player2.getName());
             System.out.println();
@@ -332,3 +332,5 @@ class BattleShipGame {
         }
     }
 }
+
+
